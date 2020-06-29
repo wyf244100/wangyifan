@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script type="text/javascript" src="./js/vue.js"></script>
+</head>
+<body>
+<div id="app">
+	姓名：<span>{{name}}</span><br>
+	
+	姓名：<input type="text" v-model="name"><br>
+	年龄：<input type="text" v-model="age">
+	<input type="button" v-on:click="age++" value="加">
+	<input type="button" v-on:click="age--" value="减">
+	<input type="button" @click="jia()" value="加2">
+	<input type="button" @click="jian()" value="减2">
+	<br>
+	
+</div>
+<script type="text/javascript">
+	var app=new Vue({
+		el:"#app",
+		data:{
+			name:"张三",
+			age:10
+		},
+	methods:{
+		jia:function() {
+			this.age+=2
+		},
+		jian:function(){
+			this.age-=2
+		}
+	}
+	})
+
+</script>
+</body>
+</html>
