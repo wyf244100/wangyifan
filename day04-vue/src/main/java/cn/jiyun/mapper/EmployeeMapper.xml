@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.jiyun.mapper.EmployeeMapper">
+
+<resultMap type="employee" id="findAll_emp">
+	<id column="eid" property="eid"/>
+	<result column="ename" property="ename"/>
+	<result column="sex" property="sex"/>
+	<result column="hobby" property="hobby"/>
+	<result column="birthday" property="birthday"/>
+	<result column="did" property="did"/>
+	<association property="dept" javaType="dept">
+		<id column="did" property="did"/>
+		<result column="dname" property="dname"/>
+	</association>
+</resultMap>
+<select id="findAll" resultMap="findAll_emp">
+	select * from employee e , dept d where e.did=d.did
+</select>
+<insert id="add" parameterType="employee">
+	insert into employee values(null,#{ename},#{sex},#{hobby},#{birthday},#{did})
+</insert>
+<delete id="del" parameterType="int">
+
+	delete from employee where eid=#{eid}
+</delete>
+<select id="findByid" parameterType="int" resultType="employee">
+	select * from employee where eid=#{eid}
+
+</select>
+<update id="update" parameterType="employee">
+	update employee set ename=#{ename},sex=#{sex},hobby=#{hobby},birthday=#{birthday},did=#{did} where eid=#{eid}
+</update>
+
+</mapper>

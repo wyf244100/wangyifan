@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script type="text/javascript" src="js/axios-0.18.0.js"></script>
+<script type="text/javascript" src="js/vuejs-2.5.16.js"></script>
+</head>
+<body>
+<div id="app">
+<a href="add.html">添加</a>
+
+<table border="1">
+	<tr>
+		<td>编号</td>
+		<td>姓名</td>
+		<td>性别</td>
+		<td>爱好</td>
+		<td>生日</td>
+		<td>部门</td>
+		<td>操作</td>
+	</tr>
+	<tr v-for="e in list">
+		<td>{{e.eid}}</td>
+		<td>{{e.ename}}</td>
+		<td>{{e.sex}}</td>
+		<td>{{e.hobby}}</td>
+		<td>{{e.birthday}}</td>
+		<td>{{e.dept.dname}}</td>
+		<td>
+			<input type="button" value="删除" @click="del(e.eid)">
+			<a :href="'update.html?eid='+e.eid"><input type="button" value="修改"></a>
+		</td>
+	</tr>
+</table>
+</div>
+<script type="text/javascript">
+var app = new Vue({
+	el:"#app",
+	data:{
+		list:[]
+	},
+	methods:{
+		findAll(){
+			// ajax访问后台，并接受数据
+			axios.get("findAll.action").then(function(response){
+				app.list = response.data;	
+			});
+		},
+		del(eid){
+			// 根据id进行删除
+			axios.get("del.action?eid="+eid).then(function(response){
+				app.findAll();
+			});
+		}
+	},
+	created(){
+		this.findAll();
+	}
+	
+	
+});
+</script>
+</body>
+</html>

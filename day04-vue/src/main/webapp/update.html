@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script type="text/javascript" src="js/axios-0.18.0.js"></script>
+<script type="text/javascript" src="js/vuejs-2.5.16.js"></script>
+</head>
+<body>
+<div id="app">
+<input v-model="employee.eid" type="hidden">
+姓名：<input v-model="employee.ename"><br>
+性别：
+<input type="radio" v-model="employee.sex" value="男" checked="checked">男
+<input type="radio" v-model="employee.sex" value="女">女<br>
+爱好：
+<input type="checkbox" v-model="employee.h" value="篮球">篮球
+<input type="checkbox" v-model="employee.h" value="足球">足球
+<input type="checkbox" v-model="employee.h" value="排球">排球<br>
+生日：
+<input v-model="employee.birthday"><br>
+部门：
+<select v-model="employee.did">
+	<option value="0">--请选择--</option>
+	<option v-for="d in depts" :value="d.did">{{d.dname}}</option>
+</select><br>
+<input type="button" @click="add" value="修改">
+</div>
+
+<script type="text/javascript">
+
+var eid = location.search.substring(5);
+var app = new Vue({
+	el:"#app",
+	data:{
+		employee:{
+			sex:"男",
+			did:0,
+			h:[]
+		},
+		depts:[]
+	},
+	methods:{
+		findByid(){
+			axios.get("findByid.action?eid="+eid).then(function(response){
+				app.employee = response.data;
+				app.employee.h = app.employee.hobby.split(",");
+			});
+		},
+		findDepts(){
+			// 查询后台，将所有的部门信息都获取到，并显示在界面上
+			axios.get("findDepts.action").then(function(response){
+				app.depts = response.data;
+			});
+		},
+		add(){
+			var h = this.employee.h;
+			// 将数组中每个数据进行遍历，并拼接成一个字符串，在每个元素中间，加上指定符号
+			this.employee.hobby = h.join(",");
+			axios.post("add.action",this.employee).then(function(response){
+				if(response.data==0){
+					// 跳转页面回到展示所有页面
+					location.href="show.html";
+				}
+			});
+		}
+	},
+	created(){
+		this.findDepts();
+		this.findByid();
+	}
+	
+	
+});
+
+</script>
+</body>
+</html>
