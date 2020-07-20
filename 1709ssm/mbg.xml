@@ -59,8 +59,8 @@
 		<table tableName="operation" domainObjectName="Operation"></table>
 		<table tableName="role" domainObjectName="Role"></table>
 		<table tableName="token" domainObjectName="Token"></table> -->
-		<table tableName="t_user" domainObjectName="T_user"></table>
-		<table tableName="t_role" domainObjectName="T_role"></table>
+		<table tableName="grade" domainObjectName="Grade"></table>
+		<table tableName="student" domainObjectName="Student"></table>
 		
 		<!-- 		<table tableName="log" domainObjectName="Log" enableSelectByExample="false" enableDeleteByExample="false" enableUpdateByExample="false"></table> -->
 <!-- 		<table tableName="attachment" domainObjectName="Attachment" enableSelectByExample="false" enableDeleteByExample="false" enableUpdateByExample="false"></table> -->

@@ -2,7 +2,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>学生主页</title>
+<title>用户主页</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <%@ include file="/WEB-INF/common.jsp"%>
@@ -21,28 +21,37 @@
 				<privilege:operation operationId="${oper.operationid }" id="${oper.operationcode }" name="${oper.operationname }" clazz="${oper.iconcls }"  color="#093F4D"></privilege:operation>
 			</c:forEach>
         </div>
-         <div class="row">
+        <div class="row">
 			  <div class="col-lg-2">
 				<div class="input-group">
-			      <span class="input-group-addon">学生名 </span>
+			      <span class="input-group-addon">用戶名 </span>
 			      <input type="text" name="name" class="form-control" id="txt_search_name" >
 				</div>
 			  </div>
 			  <div class="col-lg-2">
 				<div class="input-group">
-					<span class="input-group-addon">所属角色</span>
+					<span class="input-group-addon">角色</span>
 					<select class="form-control" name="txt_search_gid" id = "txt_search_gid">
 						<option value="0">---请选择---</option>
-						<c:forEach items="${glist }" var="g">
-						 	<option value="${g.gid }">${g.gname }</option>
+						<c:forEach items="${roleList }" var="r">
+						 	<option value="${r.gid }">${r.gname }</option>
 						</c:forEach>
                 	</select>
 				</div>
+				<div class="form-horizontal m-t">			  
+			  <div class="form-group col-lg-7">
+                 <label class="col-sm-2 control-label">操作时间</label>
+                 <div class="col-sm-8">
+                     <input placeholder="开始时间" id="txt_search_start" name="ks" class="laydate-icon form-control layer-date"/>
+                     <input placeholder="结束时间"id="txt_search_end" name="js" class="laydate-icon form-control layer-date"/>
+                 </div>
+	          </div>
+		  	</div>
 			 </div>
             <button id="btn_search" type="button" class="btn btn-default">
             	<span class="glyphicon glyphicon-search" aria-hidden="true"></span>查询
             </button>
-	  	</div> 
+	  	</div>
         
         <table id="table_user"></table>
 		
@@ -57,46 +66,44 @@
 						<input type="hidden" name="id" id="hidden_txt_id" value=""/>
 						<table style="border-collapse:separate; border-spacing:0px 10px;">
 							<tr>
-								<td>登录名：</td>
+								<td>学生名：</td>
 								<td><input type="text" id="name" name="name"
 									class="form-control" aria-required="true" required/></td>
 								<td>&nbsp;&nbsp;</td>
-								<td>手机号</td>
-							 <td> <!--<input type="radio" name="sex" value="男" />男
-								<input type="radio" name="sex" value="女" />女 -->	
-								<input type="text" name="sex" id="sex">
-								
+								<tr>
+								<td>性别</td>
+								<td>
+								<input type="radio" id="password" name="sex" value="男"/>男
+								<input type="radio" id="password" name="sex" value="女"/>女
+								</td>
+								</tr>
+							</tr>
+							<tr>
+								<td>生日</td>
+								<td>
+									<input type="date" name="birthday" id="birthday" class="laydate-icon form-control layer-date">
 								</td>
 							</tr>
-							<!-- <tr>
-								<td>最后一次修改时间</td>
-								<td>
-									<input type="date"  name="birthday" id="birthday">
-								</td>
-								
-							</tr> -->
-							<!--  
 							<tr>
-								<td>爱好</td>
+								<td>爱好：</td>
 								<td>
-									<input type="checkbox" name="hobby" value="吃鸡">吃鸡
-									<input type="checkbox" name="hobby" value="LOL">LOL
-									<input type="checkbox" name="hobby" value="OW">OW
-							
+									<input type="checkbox" name="hobby" value="lol">lol
+									<input type="checkbox" name="hobby" value="ow">ow
+									<input type="checkbox" name="hobby" value="pubg">pubg
 								</td>
 							</tr>
-							-->
 							<tr>
-								<td>所属角色名</td>
+								<td>职位：</td>
 								<td colspan="4">
 									<select class="form-control" name="gid" id = "gid" aria-required="true" required>
 										<option value="">---请选择---</option>
-										<c:forEach items="${glist }" var="g">
-										 	<option value="${g.gid }">${g.gname }</option>
+										<c:forEach items="${roleList }" var="r">
+										 	<option value="${r.gid }">${r.gname }</option>
 										</c:forEach>
 				                	</select>
 								</td>
 							</tr>
+							
 						</table>
 						
 						<div class="modal-footer">
@@ -112,16 +119,18 @@
 		</div>
 
 	</div>
-	<!-- 导入的表单 -->
-	<div class="modal fade" id="modal_stu_in" role="dialog" aria-labelledby="modal_stu_in" aria-hidden="true">
+	
+	<div class="modal fade" id="modal_user_in" role="dialog" aria-labelledby="modal_user_edit" aria-hidden="true" >
 		<div class="modal-dialog">
 			<div class="modal-content">
 				<div class="modal-body">
-					<form id="form_in" method="post" action="instu.htm" enctype="multipart/form-data" >
-						<input type="file" name="file" id="file" />
+					<form id="form_in" method="post" action="inStu.htm" enctype="multipart/form-data">
+					请上传文件:
+						<input type="file" name="file" id="file" value=""/>
+						
 						
 						<div class="modal-footer">
-							<button type="button" class="btn btn-primary"  id="submit_form_stu_in">导入</button>
+							<button type="button" class="btn btn-primary"  id="submit_form_in_btn">保存</button>
 							<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
 						</div>
 					</form>
@@ -133,7 +142,8 @@
 		</div>
 
 	</div>
-	 
+	
+	
 	<!--删除对话框 -->
 	<div class="modal fade" id="modal_user_del" role="dialog" aria-labelledby="modal_user_del" aria-hidden="true">
 		<div class="modal-dialog">
@@ -189,6 +199,7 @@
    	<!-- jQuery form  -->
     <script src="${path }/resources/js/jquery.form.min.js"></script>
     
+    <script src="${path }/resources/js/plugins/layer/laydate/laydate.js"></script>
 	<script type="text/javascript">
 	
 	Date.prototype.Format = function (fmt) {
@@ -205,6 +216,27 @@
 	    if (new RegExp("(" + k + ")").test(fmt)) fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));  
 	    return fmt;  
 	};
+	
+	
+    //外部js调用
+    laydate({
+        elem: '#txt_search_start', //目标元素。由于laydate.js封装了一个轻量级的选择器引擎，因此elem还允许你传入class、tag但必须按照这种方式 '#id .class'
+        event: 'focus', //响应事件。如果没有传入event，则按照默认的click
+        format: 'YYYY-MM-DD'// 日期格式
+    });
+    
+    laydate({
+        elem: '#txt_search_end',
+        event: 'focus',
+        format: 'YYYY-MM-DD'
+    });
+    
+    laydate({
+        elem: '#birthday', //目标元素。由于laydate.js封装了一个轻量级的选择器引擎，因此elem还允许你传入class、tag但必须按照这种方式 '#id .class'
+        event: 'focus', //响应事件。如果没有传入event，则按照默认的click
+        format: 'YYYY-MM-DD'// 日期格式
+    });
+    
 	$(function () {
 	    init();
 	    $("#btn_search").bind("click",function(){
@@ -239,7 +271,7 @@
    		    		
    		    		if(data.success && !data.errorMsg ){
    		    			validator2.resetForm();
-   		    			$('#modal_stu_in').modal('hide');
+   		    			$('#modal_user_in').modal('hide');
    		    			$("#btn_search").click();
    		    		}else{
    		    			$("#select_message").text(data.errorMsg);
@@ -249,13 +281,11 @@
    		      });     
    		   }  
 	    });
-	    
-	    
 	    $("#submit_form_user_btn").click(function(){
 	    	$("#form_user").submit();
 	    });
 	    
-	    $("#submit_form_stu_in").click(function(){
+	    $("#submit_form_in_btn").click(function(){
 	    	$("#form_in").submit();
 	    });
 	});
@@ -275,7 +305,7 @@
 	    oTableInit.Init = function () {
 	        $('#table_user').bootstrapTable({
 	            url: 'stuList.htm',         //请求后台的URL（*）
-	            method: 'post',                      //请求方式（*）
+	            method: 'post',                      //请x求方式（*）
 	            contentType : "application/x-www-form-urlencoded",
 	            toolbar: '#toolbar',                //工具按钮用哪个容器
 	            striped: true,                      //是否显示行间隔色
@@ -296,45 +326,45 @@
 	            minimumCountColumns: 2,             //最少允许的列数
 	            clickToSelect: true,                //是否启用点击选中行
 	           // height: 500,                        //行高，如果没有设置height属性，表格自动根据记录条数觉得表格高度
-	            uniqueId: "userid",                     //每一行的唯一标识，一般为主键列
+	            uniqueId: "id",                     //每一行的唯一标识，一般为主键列
 	            showToggle:true,                    //是否显示详细视图和列表视图的切换按钮
 	            cardView: false,                    //是否显示详细视图
 	            detailView: false,                   //是否显示父子表
 	            columns: [{
 	                checkbox: true
 	            },
-	           /*  {
+	            {
 	                field: 'id',
-	                title: '学生编号',
+	                title: '学生id',
 	                sortable:true
-	            }, */
+	            },
 	            {
 	                field: 'name',
-	                title: '登陆名',
+	                title: '学生名',
 	                sortable:true
 	            }, {
-	                field: 'sex',
-	                title: '手机号',
-	                sortable:true
-	            }, {
-	                field: 'birthday',
-	                title: '最后一次修改时间',
-	                sortable:true,
-	                formatter:function(value,row,index){
-	                	return new Date(value).Format('yyyy-MM-dd');
-	                }
-	            }, /* {
-	                field: 'hobby',
-	                title: '爱好',
-	                sortable:true
-	            }, */ {
 	                field: 'gid',
-	                title: '所属角色',
+	                title: '职位',
 	                sortable:true,
 	                formatter:function(value,row,index){
 	                	return row.grade.gname;
 	                }
-	            }],
+	            }, {
+	                field: 'sex',
+	                title: '性别'
+	            }, {
+	                field: 'hobby',
+	                title: '爱好'
+	            }, {
+	                field: 'birthday',
+	                title: '生日',
+	                sortable:true,
+	                formatter:function(value,row,index){
+	                	return new Date(value).Format('yyyy-MM-dd');
+	                	
+	                }
+	             
+	                }],
 	            onClickRow: function (row) {
 	            	$("#alertmod_table_user_mod").hide();
 	            }
@@ -348,7 +378,8 @@
 	            offset: params.offset,  //页码
 	            name: $("#txt_search_name").val(),
 	            gid: $("#txt_search_gid").val(),
-	            usertype: $("#txt_search_usertype").val(),
+	            ks: $("#txt_search_start").val(),
+	            js: $("#txt_search_end").val(),
 	            search:params.search,
 	            order: params.order,
 	            ordername: params.sort
@@ -372,7 +403,6 @@
 	        });
 	        
 	    	$("#btn_edit").click(function(){
-	    		$("#form_user").resetForm();
 	    		var getSelections = $('#table_user').bootstrapTable('getSelections');
 	    		if(getSelections && getSelections.length==1){
 	    			initEditUser(getSelections[0]);
@@ -385,26 +415,6 @@
 	    		
 	        });
 	    	
-	    	$("#btn_out").click(function(){
-	    		$.ajax({
-	    		    url:"outStu.htm",
-	    		    dataType:"json",
-	    		    type:"post",
-	    		    success:function(res){
-	    		    	if(res.success){
-	    	    			alert("导出成功")
-	    	    		
-	    	    		}
-	    		    }
-	    		});
-	        });
-	    	
-	    	$("#btn_in").click(function(){
-	    		$("#form_in").resetForm();
-	    		$('#modal_stu_in').modal({backdrop: 'static', keyboard: false});
-				$('#modal_stu_in').modal('show');
-	        });
-	    	
 	    	$("#btn_delete").click(function(){
 	    		var getSelections = $('#table_user').bootstrapTable('getSelections');
 	    		if(getSelections && getSelections.length>0){
@@ -415,7 +425,29 @@
 	    			$("#alertmod_table_user_mod").show();
 	    		}
 	        });
-	        
+	    	$("#btn_out").click(function(){
+	    		$.ajax({
+	    		    url:"outStu.htm",
+	    		    dataType:"json",
+	    		    type:"post",
+	    		    success:function(res){
+	    		    	if(res.success){
+	    	    			alert("导出成功");
+	    	    		}else{
+	    	    			alert("导出失败");
+	    	    			
+	    	    		}
+	    		    }
+	    		});
+	    		
+	    	});
+	    	
+	    	$("#btn_in").click(function(){
+	    		$("#form_in").resetForm();
+	    		document.getElementById("hidden_txt_id").value='';
+	    		$('#modal_user_in').modal({backdrop: 'static', keyboard: false});
+				$('#modal_user_in').modal('show');
+	        });
 	        
 	    };
 
@@ -427,22 +459,18 @@
 	});
 	
 	function initEditUser(getSelection){
+		$("#form_user").resetForm();
 		$('#hidden_txt_id').val(getSelection.id);
 		$('#gid').val(getSelection.gid);
-		//单选框
-		//var sex=getSelection.sex
-		//$("input[value='"+sex+"']").prop("checked",true);
-		//多选框
-		//var hobbys = getSelection.hobby;
-		///	var arry = hobbys.split(",");
-		//	for(var i=0;i<arry.length;i++){
-	//		$("input[value='"+arry[i]+"']").prop("checked",true);
-		//	}
 		$('#name').val(getSelection.name);
-		$('#sex').val(getSelection.sex);
-		$("#birthday").val(new Date(getSelection.birthday).Format('yyyy-MM-dd'))
-		
-		
+		var sex =getSelection.sex;
+		$('input[value="'+sex+'"]').prop("checked",true);
+		var hobby=getSelection.hobby;
+		var arr=hobby.split(",");
+		for (var i = 0; i < arr.length; i++) {
+			$('input[value="'+arr[i]+'"]').prop("checked",true);
+		}
+		$('#birthday').val(new Date(getSelection.birthday).Format('yyyy-MM-dd'));
 	}
 	
 	$("#del_user_btn").click(function(){
@@ -454,7 +482,7 @@
 		});
 		ids = idArr.join(",");
 		$.ajax({
-		    url:"deleteUser.htm",
+		    url:"deleteStu.htm",
 		    dataType:"json",
 		    data:{"ids":ids},
 		    type:"post",

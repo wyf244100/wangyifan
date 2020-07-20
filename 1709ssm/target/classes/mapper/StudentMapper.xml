@@ -1,7 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.xiaoshu.dao.studentMapper">
-  <resultMap id="BaseResultMap" type="com.xiaoshu.entity.student">
+<mapper namespace="com.xiaoshu.dao.StudentMapper">
+  <resultMap id="BaseResultMap" type="com.xiaoshu.entity.Student">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="sex" jdbcType="VARCHAR" property="sex" />
+    <result column="birthday" jdbcType="DATE" property="birthday" />
+    <result column="hobby" jdbcType="VARCHAR" property="hobby" />
+    <result column="gid" jdbcType="INTEGER" property="gid" />
+  </resultMap>
+  <resultMap id="findall" type="com.xiaoshu.entity.Student">
     <!--
       WARNING - @mbg.generated
     -->
@@ -12,8 +23,8 @@
     <result column="hobby" jdbcType="VARCHAR" property="hobby" />
     <result column="gid" jdbcType="INTEGER" property="gid" />
     <association property="grade" javaType="grade">
-    	 <id column="gid" jdbcType="INTEGER" property="gid" />
-    	<result column="gname" jdbcType="VARCHAR" property="gname" />
+     <id column="gid" jdbcType="INTEGER" property="gid" />
+    <result column="gname" jdbcType="VARCHAR" property="gname" />
     </association>
   </resultMap>
   <sql id="Example_Where_Clause">
@@ -86,22 +97,23 @@
     -->
     id, name, sex, birthday, hobby, gid
   </sql>
- 	<select id="selectStudent" parameterType="student" resultMap="BaseResultMap">
- 		select * from student,grade 
- 		<where>
- 		student.gid=grade.gid
- 		<if test="name!=null and name!=''">
- 		  and name like '%${name}%'	
- 		</if>
- 		
- 		<if test="gid!=null and gid!=''">
- 			and student.gid=#{gid}
- 		</if>
- 		</where>
- 	
- 	</select> 
- <select id="existStuWithName" parameterType="string" resultType="student">
- 	select * from student where name=#{name}
- </select>
- 	
+  <select id="findAll" resultMap="findall" parameterType="student">
+  	select * from student a,grade b where a.gid=b.gid
+  	<if test="gid!=null and gid!=''">
+  		and a.gid =#{gid}
+  	  	</if>
+  	<if test="name!=null">
+  		and a.name like '%${name}%'
+  	</if>
+  	<if test="ks!=null">
+  		and birthday &gt;= #{ks}
+  	</if>
+  	<if test="js!=null ">
+  		and birthday &lt;= #{js}
+  	</if>
+  </select>
+  
+  <select id="selectName" parameterType="String" resultType="com.xiaoshu.entity.Student"> 
+  	select * from student where name =#{name}
+  </select>
 </mapper>

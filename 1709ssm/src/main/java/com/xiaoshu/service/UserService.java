@@ -12,7 +12,6 @@ import com.xiaoshu.dao.UserMapper;
 import com.xiaoshu.entity.User;
 import com.xiaoshu.entity.UserExample;
 import com.xiaoshu.entity.UserExample.Criteria;
-import com.xiaoshu.entity.student;
 
 @Service
 public class UserService {
@@ -97,9 +96,6 @@ public class UserService {
 		PageInfo<User> pageInfo = new PageInfo<User>(userList);
 		return pageInfo;
 	}
-
-	
-	
 
 
 }

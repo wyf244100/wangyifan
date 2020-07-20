@@ -5,14 +5,14 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
-public class studentExample {
+public class StudentExample {
     protected String orderByClause;
 
     protected boolean distinct;
 
     protected List<Criteria> oredCriteria;
 
-    public studentExample() {
+    public StudentExample() {
         oredCriteria = new ArrayList<Criteria>();
     }
 

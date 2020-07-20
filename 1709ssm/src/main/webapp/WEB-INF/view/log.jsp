@@ -115,21 +115,21 @@
 	
 	<script type="text/javascript">
 	
-Date.prototype.Format = function (fmt) {
-	    var o = {  
-	        "M+": this.getMonth() + 1, //月份   
-	        "d+": this.getDate(), //日   
-	        "H+": this.getHours(), //小时   
-	        "m+": this.getMinutes(), //分   
-	        "s+": this.getSeconds(), //秒   
-	        "S": this.getMilliseconds() //毫秒   
-	    };  
-	    if (/(y+)/.test(fmt)) fmt = fmt.replace(RegExp.$1, (this.getFullYear() + "").substr(4 - RegExp.$1.length));  
-	    for (var k in o)  
-	    if (new RegExp("(" + k + ")").test(fmt)) fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));  
-	    return fmt;  
-	};
-	
+	Date.prototype.Format = function (fmt) {
+		    var o = {  
+		        "M+": this.getMonth() + 1, //月份   
+		        "d+": this.getDate(), //日   
+		        "H+": this.getHours(), //小时   
+		        "m+": this.getMinutes(), //分   
+		        "s+": this.getSeconds(), //秒   
+		        "S": this.getMilliseconds() //毫秒   
+		    };  
+		    if (/(y+)/.test(fmt)) fmt = fmt.replace(RegExp.$1, (this.getFullYear() + "").substr(4 - RegExp.$1.length));  
+		    for (var k in o)  
+		    if (new RegExp("(" + k + ")").test(fmt)) fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));  
+		    return fmt;  
+		};
+		
     //外部js调用
     laydate({
         elem: '#txt_search_start', //目标元素。由于laydate.js封装了一个轻量级的选择器引擎，因此elem还允许你传入class、tag但必须按照这种方式 '#id .class'

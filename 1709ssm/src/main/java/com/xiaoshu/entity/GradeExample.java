@@ -3,14 +3,14 @@ package com.xiaoshu.entity;
 import java.util.ArrayList;
 import java.util.List;
 
-public class gradeExample {
+public class GradeExample {
     protected String orderByClause;
 
     protected boolean distinct;
 
     protected List<Criteria> oredCriteria;
 
-    public gradeExample() {
+    public GradeExample() {
         oredCriteria = new ArrayList<Criteria>();
     }
 

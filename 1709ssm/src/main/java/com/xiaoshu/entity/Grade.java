@@ -3,7 +3,7 @@ package com.xiaoshu.entity;
 import java.io.Serializable;
 import javax.persistence.*;
 
-public class grade implements Serializable {
+public class Grade implements Serializable {
     @Id
     private Integer gid;
 

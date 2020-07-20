@@ -6,33 +6,53 @@ import javax.persistence.*;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
-public class student implements Serializable {
+public class Student implements Serializable {
     @Id
     private Integer id;
 
     private String name;
 
     private String sex;
-    
     @DateTimeFormat(pattern="yyyy-MM-dd")
     private Date birthday;
+    
+    @Transient
+    @DateTimeFormat(pattern="yyyy-MM-dd")
+    private Date ks;
+    
+    @Transient
+    @DateTimeFormat(pattern="yyyy-MM-dd")
+    private Date js;
 
     private String hobby;
 
     private Integer gid;
-    
     @Transient
-    private grade grade;
-
-    private static final long serialVersionUID = 1L;
+    private Grade grade;
 
     
     
-    public grade getGrade() {
+    public Date getKs() {
+		return ks;
+	}
+
+	public void setKs(Date ks) {
+		this.ks = ks;
+	}
+
+	public Date getJs() {
+		return js;
+	}
+
+	public void setJs(Date js) {
+		this.js = js;
+	}
+
+	public Grade getGrade() {
 		return grade;
 	}
 
-	public void setGrade(grade grade) {
+	public void setGrade(Grade grade) {
 		this.grade = grade;
 	}
 
@@ -40,7 +60,9 @@ public class student implements Serializable {
 		return serialVersionUID;
 	}
 
-	/**
+	private static final long serialVersionUID = 1L;
+
+    /**
      * @return id
      */
     public Integer getId() {
@@ -139,5 +161,4 @@ public class student implements Serializable {
         sb.append("]");
         return sb.toString();
     }
-    
 }

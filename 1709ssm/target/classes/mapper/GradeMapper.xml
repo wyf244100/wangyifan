@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.xiaoshu.dao.gradeMapper">
-  <resultMap id="BaseResultMap" type="com.xiaoshu.entity.grade">
+<mapper namespace="com.xiaoshu.dao.GradeMapper">
+  <resultMap id="BaseResultMap" type="com.xiaoshu.entity.Grade">
     <!--
       WARNING - @mbg.generated
     -->
@@ -72,17 +72,14 @@
       </foreach>
     </where>
   </sql>
-  
   <sql id="Base_Column_List">
     <!--
       WARNING - @mbg.generated
     -->
     gid, gname
   </sql>
- 
- <select id="selectId" parameterType="string" resultType="int">
- 	select gid from grade where gname=#{gname}
- 
- </select>
- 
+
+<select id="findGid" parameterType="string" resultType="int">
+	select gid from grade where gname =#{gname}
+</select>
 </mapper>
