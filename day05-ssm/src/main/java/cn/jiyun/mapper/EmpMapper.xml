@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.jiyun.mapper.EmpMapper">
+	<resultMap type="emp" id="findAll_emp">
+	<id column="eid" property="eid"/>
+	<result column="ename" property="ename"/>
+	<result column="sex" property="sex"/>
+	<result column="hobby" property="hobby"/>
+	<result column="img" property="img"/>
+	<result column="birthday" property="birthday"/>
+	<result column="did" property="did"/>
+	<result column="addr" property="addr"/>
+	<association property="dept" javaType="dept">
+		<id column="did" property="did"/>
+		<result column="dname" property="dname"/>
+	</association>
+	</resultMap>
+	
+	<select id="findAll" parameterType="emp" resultMap="findAll_emp">
+		SELECT * FROM emp e LEFT  JOIN dept d ON e.did=d.did
+		<where>
+			<if test="ename!=null and ename!=''">
+				ename like '%${ename}%'
+			</if>
+			<if test="birthday !=null and birthday!=''" >
+				and birthday = #{birthday}
+			</if>
+			<if test="did!=null and did!=0">
+				and e.did = #{did}
+			</if>
+			
+		</where>
+	</select>
+	<insert id="add" parameterType="emp">
+		
+		insert into emp values(null,#{ename},#{sex},#{hobby},#{img},#{birthday},#{did},#{addr})
+	
+	</insert>
+	<delete id="delete" parameterType="int">
+		
+		delete from emp where eid=#{eid}
+	
+	</delete>
+	
+	<select id="findByID" parameterType="int" resultType="emp">
+		
+		select * from emp where eid=#{eid}
+		
+	</select>
+	<update id="update" parameterType="emp">
+		
+		update emp set ename=#{ename},sex=#{sex},hobby=#{hobby},img=#{img},birthday=#{birthday},did=#{did},addr=#{addr} where eid=#{eid}
+	
+	</update>
+	<delete id="deleteAll">
+		delete from emp
+		<where>
+			<foreach collection="array" open="eid in(" close=")" item="ids" separator=",">
+				#{ids}
+			</foreach>
+		</where>
+	
+	</delete>
+	
+</mapper>

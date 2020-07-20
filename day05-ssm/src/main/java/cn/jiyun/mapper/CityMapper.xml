@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.jiyun.mapper.CityMapper">
+<select id="findSheng" resultType="city">
+
+select * from city where fid is null
+</select>
+<select id="findShi" parameterType="int" resultType="city">
+
+select * from city where fid=#{cid}
+</select>
+<select id="findCityByID" parameterType="int" resultType="string">
+
+select cname from city where cid=#{cid}
+</select>
+
+
+
+
+</mapper>
